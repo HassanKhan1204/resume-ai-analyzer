@@ -1,53 +1,66 @@
 # Resume AI Analyzer
 
-Resume AI Analyzer is a presentable Spring Boot portfolio project where users upload resumes and receive missing skills, improvement suggestions, and a job matching score.
+AI-powered resume analysis application built with Java and Spring Boot. Users can upload resumes and receive missing skills, improvement suggestions, and a job matching score based on a target role.
 
-The app includes both a REST API and a simple browser demo served by Spring Boot at `http://localhost:8080`.
+Built as a portfolio project to demonstrate backend engineering concepts including REST APIs, file processing, PostgreSQL persistence, and AI integration.
 
-## What It Does
+---
 
-- missing skills
-- resume improvement suggestions
-- job matching score
-- uploaded resume history in PostgreSQL
+## Features
 
-This is built as an interview-friendly Java backend project: REST APIs, file handling, PostgreSQL persistence, and an LLM API integration boundary.
+- Upload PDF, DOCX, or TXT resumes
+- Extract text using Apache Tika
+- Identify missing skills
+- Generate improvement suggestions
+- Calculate a job matching score
+- Store resume history in PostgreSQL
+- LLM integration with fallback support
+- Browser demo + REST API endpoints
+
+---
 
 ## Tech Stack
 
+**Backend**
 - Java 17
 - Spring Boot 3
-- Spring Web REST APIs
+- Spring Web
 - Spring Data JPA
+
+**Database**
 - PostgreSQL
-- Apache Tika for PDF, DOCX, and text extraction
-- OpenAI-compatible LLM API client
 
-## Demo Flow
+**AI + Processing**
+- Apache Tika
+- OpenAI-compatible LLM API
 
-1. User opens `http://localhost:8080`
-2. User uploads a PDF, DOCX, or TXT resume
-3. Backend extracts resume text with Apache Tika
-4. Analyzer compares resume content against target skills
-5. API returns missing skills, suggestions, score, and persisted resume ID
+**Infrastructure**
+- Maven
+- Docker
 
-## Architecture
+---
 
-```text
-Browser UI
-   |
-   v
-Spring Boot REST Controller
-   |
-   +--> FileStorageService saves the upload
-   |
-   +--> ResumeTextExtractor extracts text with Apache Tika
-   |
-   +--> ResumeAnalyzer calls LLM client or fallback analyzer
-   |
-   v
-PostgreSQL stores resume metadata and analysis
-```
+## Demo
+
+Open:
+
+http://localhost:8080
+
+Flow:
+
+1. Upload a resume
+2. Backend extracts resume text
+3. Resume content is analyzed against target skills
+4. Analysis is stored in PostgreSQL
+5. Results are returned
+
+Example output:
+
+- Missing skills
+- Resume suggestions
+- Job matching score
+
+---
 
 ## API
 
@@ -57,7 +70,7 @@ PostgreSQL stores resume metadata and analysis
 curl http://localhost:8080/api/health
 ```
 
-### Analyze a Resume
+### Analyze Resume
 
 ```bash
 curl -X POST http://localhost:8080/api/resumes/analyze \
@@ -74,48 +87,48 @@ Example response:
 
 ```json
 {
-  "id": "7e7d7829-01fa-4d4a-8303-f0edcfd59ed3",
-  "originalFilename": "resume.pdf",
-  "contentType": "application/pdf",
-  "sizeBytes": 152333,
-  "uploadedAt": "2026-05-21T17:30:00Z",
-  "analysis": {
-    "resumeId": "7e7d7829-01fa-4d4a-8303-f0edcfd59ed3",
-    "missingSkills": ["LLM API"],
-    "suggestions": [
-      "Add evidence for these role-critical skills: LLM API.",
-      "Quantify backend impact with metrics such as latency, throughput, reliability, or deployment frequency."
-    ],
-    "jobMatchingScore": 80,
-    "summary": "Resume was analyzed against 5 target skills and matched 4 of them.",
-    "analyzer": "heuristic-fallback",
-    "analyzedAt": "2026-05-21T17:30:02Z"
-  }
+  "missingSkills": ["LLM API"],
+  "suggestions": [
+    "Add evidence for role-critical skills.",
+    "Quantify impact with metrics."
+  ],
+  "jobMatchingScore": 80
 }
 ```
 
-### Fetch a Resume
+### Fetch Resume
 
 ```bash
 curl http://localhost:8080/api/resumes/{resumeId}
 ```
 
-### Fetch Only Analysis
+### Fetch Analysis
 
 ```bash
 curl http://localhost:8080/api/resumes/{resumeId}/analysis
 ```
 
-## Run Locally
+---
 
-### Option 1: Docker Demo Mode
+## Installation
 
-This is the easiest way to keep the project available without leaving a PowerShell tab running.
-
-Start the backend and PostgreSQL in the background:
+Clone the repository:
 
 ```bash
-docker compose up -d --build
+git clone https://github.com/yourusername/resume-ai-analyzer.git
+cd resume-ai-analyzer
+```
+
+Start PostgreSQL:
+
+```bash
+docker compose up -d postgres
+```
+
+Run application:
+
+```bash
+mvn spring-boot:run
 ```
 
 Open:
@@ -124,87 +137,78 @@ Open:
 http://localhost:8080
 ```
 
-Check running containers:
+---
+
+## Docker Setup
+
+Start full application:
 
 ```bash
-docker compose ps
+docker compose up -d --build
 ```
 
-Stop everything:
+Stop:
 
 ```bash
 docker compose down
 ```
 
-### Option 2: Maven Development Mode
+---
 
-Start PostgreSQL only:
+## Environment Variables
 
-```bash
-docker compose up -d postgres
-```
+Optional AI configuration:
 
-Run the app:
-
-```bash
-mvn spring-boot:run
-```
-
-The app starts at `http://localhost:8080`.
-
-Open the browser demo:
-
-```text
-http://localhost:8080
-```
-
-Environment variables are documented in `.env.example`.
-
-## Enable the LLM API
-
-By default, the app uses a deterministic fallback analyzer so demos work without credentials.
-
-To call an OpenAI-compatible chat completions API:
-
-```bash
+```powershell
 $env:LLM_ENABLED="true"
 $env:LLM_API_KEY="your_api_key"
 $env:LLM_MODEL="gpt-4o-mini"
-mvn spring-boot:run
 ```
 
 Optional:
 
-```bash
+```powershell
 $env:LLM_BASE_URL="https://api.openai.com/v1"
 ```
 
-## Interview Version
+See:
 
-Short version:
+```text
+.env.example
+```
 
-> I integrated AI into a Java backend service and designed REST APIs for resume analysis workflows.
+---
 
-Expanded version:
+## Architecture
 
-> I built a Spring Boot service where users upload PDF, DOCX, or text resumes. The backend stores file metadata in PostgreSQL, extracts resume text with Apache Tika, sends structured prompts to an LLM API, and returns missing skills, improvement suggestions, and a job matching score through REST endpoints. I also added a fallback analyzer so the workflow remains testable when the LLM provider is unavailable.
+```text
+Browser UI
+     |
+     v
+Spring Boot Controller
+     |
+     +--> FileStorageService
+     |
+     +--> ResumeTextExtractor
+     |
+     +--> ResumeAnalyzer
+     |
+     v
+PostgreSQL
+```
 
-Resume bullets:
+---
 
-- Built a Spring Boot REST API for resume upload and AI-assisted job matching analysis.
-- Integrated file handling, text extraction, PostgreSQL persistence, and an OpenAI-compatible LLM client.
-- Designed analysis responses that return missing skills, targeted suggestions, and a normalized job matching score.
+## Future Improvements
 
-## Demo Script
+- Resume keyword highlighting
+- Embedding/vector similarity search
+- Authentication and user accounts
+- Resume analytics dashboard
+- Deployment to AWS
 
-Use this when presenting the project:
+---
 
-> This project simulates a resume screening workflow. The user uploads a resume from the browser, and the Spring Boot backend accepts the multipart file, extracts the text, analyzes it against a target backend role, and stores the result in PostgreSQL. The analysis layer is behind an interface, so in production it can call an LLM API, while local demos can use a deterministic fallback. The output gives recruiters or candidates a missing skills list, improvement suggestions, and a job matching score.
+## License
 
-## Portfolio Highlights
-
-- **AI integration:** Prompt-ready LLM client with JSON response handling.
-- **Java backend:** Spring Boot controllers, services, validation, exception handling, and JPA persistence.
-- **File handling:** Multipart upload, file storage, PDF/DOCX/TXT text extraction.
-- **Database:** PostgreSQL-backed resume and analysis records.
-- **Demo-ready:** Browser UI plus REST API examples.
+MIT
