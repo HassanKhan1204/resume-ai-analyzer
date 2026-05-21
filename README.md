@@ -1,5 +1,7 @@
 # Resume AI Analyzer
 
+Live Demo: https://resume-ai-analyzer-production-4f79.up.railway.app/
+
 AI-powered resume analysis application built with Java and Spring Boot. Users can upload resumes and receive missing skills, improvement suggestions, and a job matching score based on a target role.
 
 Built as a portfolio project to demonstrate backend engineering concepts including REST APIs, file processing, PostgreSQL persistence, and AI integration.
