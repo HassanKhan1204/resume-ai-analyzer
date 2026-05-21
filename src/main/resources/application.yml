@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: resume-ai-analyzer
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/resume_ai}
+    username: ${DB_USERNAME:resume_ai}
+    password: ${DB_PASSWORD:resume_ai}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+server:
+  port: ${PORT:8080}
+
+app:
+  storage:
+    upload-dir: ${UPLOAD_DIR:uploads}
+  llm:
+    enabled: ${LLM_ENABLED:false}
+    api-key: ${LLM_API_KEY:}
+    base-url: ${LLM_BASE_URL:https://api.openai.com/v1}
+    model: ${LLM_MODEL:gpt-4o-mini}

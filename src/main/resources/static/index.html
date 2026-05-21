@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume AI Analyzer</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main class="shell">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">Spring Boot + PostgreSQL + LLM workflow</p>
+            <h1>Resume AI Analyzer</h1>
+            <p class="lead">
+                Upload a resume and get missing skills, targeted suggestions, and a job matching score through a Java backend service.
+            </p>
+        </div>
+        <div class="status-strip" aria-label="Project highlights">
+            <span>REST APIs</span>
+            <span>File handling</span>
+            <span>AI-ready service layer</span>
+        </div>
+    </section>
+
+    <section class="workspace" aria-label="Resume analysis workspace">
+        <form id="analysisForm" class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Analyze Resume</h2>
+                    <p>PDF, DOCX, or TXT up to 5 MB</p>
+                </div>
+                <span id="apiStatus" class="pill">API ready</span>
+            </div>
+
+            <label class="file-drop" for="resumeFile">
+                <input id="resumeFile" name="file" type="file" accept=".pdf,.docx,.txt,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+                <span class="file-title">Choose resume file</span>
+                <span id="fileName" class="file-name">No file selected</span>
+            </label>
+
+            <label class="field">
+                <span>Target job description</span>
+                <textarea id="targetJobDescription" rows="5">Backend engineer role using Java, Spring Boot, PostgreSQL, REST APIs, and AI workflows.</textarea>
+            </label>
+
+            <label class="field">
+                <span>Required skills</span>
+                <input id="requiredSkills" value="Java, Spring Boot, REST APIs, PostgreSQL, LLM API">
+            </label>
+
+            <button id="submitButton" class="primary-button" type="submit">Analyze resume</button>
+            <p id="formMessage" class="message" role="status"></p>
+        </form>
+
+        <section class="panel result-panel" aria-live="polite">
+            <div class="panel-header">
+                <div>
+                    <h2>Analysis Result</h2>
+                    <p id="resultSubtitle">Upload a resume to generate a score.</p>
+                </div>
+                <div id="scoreBadge" class="score-badge">--</div>
+            </div>
+
+            <div class="result-grid">
+                <div>
+                    <h3>Missing Skills</h3>
+                    <ul id="missingSkills" class="tag-list">
+                        <li>Waiting for upload</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Suggestions</h3>
+                    <ul id="suggestions" class="suggestion-list">
+                        <li>Results will appear here after analysis.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3>Summary</h3>
+                <p id="summary">This demo uses the same REST endpoint your API clients can call directly.</p>
+                <code id="resumeId">resumeId: pending</code>
+            </div>
+        </section>
+    </section>
+
+    <section class="architecture" aria-label="Architecture overview">
+        <h2>Project Architecture</h2>
+        <div class="steps">
+            <div>
+                <strong>1. Upload</strong>
+                <span>Multipart REST API accepts PDF, DOCX, or text resumes.</span>
+            </div>
+            <div>
+                <strong>2. Extract</strong>
+                <span>Apache Tika converts the file into analyzable text.</span>
+            </div>
+            <div>
+                <strong>3. Analyze</strong>
+                <span>LLM-ready service returns missing skills, suggestions, and score.</span>
+            </div>
+            <div>
+                <strong>4. Persist</strong>
+                <span>PostgreSQL stores metadata and analysis history.</span>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>

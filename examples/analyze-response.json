@@ -1,0 +1,22 @@
+{
+  "id": "3d9787a2-4672-41f5-85a3-c46b60070856",
+  "originalFilename": "Hassan Khan - Resume (3).pdf",
+  "contentType": "application/pdf",
+  "sizeBytes": 116054,
+  "uploadedAt": "2026-05-21T08:03:31.177561100Z",
+  "analysis": {
+    "resumeId": "3d9787a2-4672-41f5-85a3-c46b60070856",
+    "missingSkills": [
+      "LLM API"
+    ],
+    "suggestions": [
+      "Add evidence for these role-critical skills: LLM API.",
+      "Quantify backend impact with metrics such as latency, throughput, reliability, or deployment frequency.",
+      "Use project bullets that connect Java, APIs, database design, file handling, and AI workflow outcomes."
+    ],
+    "jobMatchingScore": 80,
+    "summary": "Resume was analyzed against 5 target skills and matched 4 of them.",
+    "analyzer": "heuristic-fallback",
+    "analyzedAt": "2026-05-21T08:03:31.179580400Z"
+  }
+}
